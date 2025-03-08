@@ -8,8 +8,8 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { useToast } from '@/hooks/use-toast';
-import UserAvatar from '@/components/common/UserAvatar';
-import { getCurrentUser } from '@/lib/constants';
+import axios from 'axios';
+
 import { Menu, Search, Bell, X } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { UserRoundPlus } from "lucide-react"
@@ -20,7 +20,16 @@ const Header: React.FC = () => {
   const isMobile = useIsMobile();
   const [scrolled, setScrolled] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-  const currentUser = getCurrentUser();
+  const [currentUser, setCurrentUser] = useState(null);
+
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      const response = await axios.get('/api/users/current');
+      setCurrentUser(response.data);
+    };
+
+    fetchCurrentUser();
+  }, []);
 
   const handleNotification = () => {
     toast({
@@ -49,6 +58,66 @@ const Header: React.FC = () => {
     return 'Supply Chain Transparency';
   };
 
+  const renderNavLinks = () => {
+    if (!currentUser) return null;
+
+    switch (currentUser.role) {
+      case 'farmer':
+        return (
+          <Link 
+            to="/farmer" 
+            className={cn(
+              "text-sm font-medium transition-colors hover:text-primary",
+              location.pathname.includes('/farmer') && "text-primary"
+            )}
+          >
+            Farmer
+          </Link>
+        );
+
+        case 'transporter':
+        return (
+          <Link 
+            to="/transporter" 
+            className={cn(
+              "text-sm font-medium transition-colors hover:text-primary",
+              location.pathname.includes('/farmer') && "text-primary"
+            )}
+          >
+            Transporter
+          </Link>
+        );
+
+        case 'warehouse':
+        return (
+          <Link 
+            to="/warehouse" 
+            className={cn(
+              "text-sm font-medium transition-colors hover:text-primary",
+              location.pathname.includes('/farmer') && "text-primary"
+            )}
+          >
+            Warehouse
+          </Link>
+        );
+        
+      case 'consumer':
+        return (
+          <Link 
+            to="/consumer" 
+            className={cn(
+              "text-sm font-medium transition-colors hover:text-primary",
+              location.pathname.includes('/consumer') && "text-primary"
+            )}
+          >
+            Consumer
+          </Link>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <header 
       className={cn(
@@ -67,24 +136,13 @@ const Header: React.FC = () => {
               </SheetTrigger>
               <SheetContent side="left" className="w-[300px] sm:w-[400px]">
                 <nav className="flex flex-col gap-4 mt-8">
-                  <Link to="/farmer" className="text-lg font-medium px-2 py-2 rounded-md hover:bg-accent transition-colors">
-                    Farmer
-                  </Link>
-                  <Link to="/transporter" className="text-lg font-medium px-2 py-2 rounded-md hover:bg-accent transition-colors">
-                    Transporter
-                  </Link>
-                  <Link to="/warehouse" className="text-lg font-medium px-2 py-2 rounded-md hover:bg-accent transition-colors">
-                    Warehouse
-                  </Link>
-                  <Link to="/consumer" className="text-lg font-medium px-2 py-2 rounded-md hover:bg-accent transition-colors">
-                    Consumer
-                  </Link>
+                  {renderNavLinks()}
                 </nav>
               </SheetContent>
             </Sheet>
           )}
           
-          <Link to="/" className="flex items-center gap-2">
+          <Link to="/home" className="flex items-center gap-2">
             <span className="font-bold text-xl bg-clip-text text-transparent bg-gradient-to-r from-primary to-role-farmer">
               TraceChain
             </span>
@@ -92,42 +150,7 @@ const Header: React.FC = () => {
           
           {!isMobile && (
             <nav className="hidden md:flex items-center ml-8 gap-6">
-              <Link 
-                to="/farmer" 
-                className={cn(
-                  "text-sm font-medium transition-colors hover:text-primary",
-                  location.pathname.includes('/farmer') && "text-primary"
-                )}
-              >
-                Farmer
-              </Link>
-              <Link 
-                to="/transporter" 
-                className={cn(
-                  "text-sm font-medium transition-colors hover:text-primary",
-                  location.pathname.includes('/transporter') && "text-primary"
-                )}
-              >
-                Transporter
-              </Link>
-              <Link 
-                to="/warehouse" 
-                className={cn(
-                  "text-sm font-medium transition-colors hover:text-primary",
-                  location.pathname.includes('/warehouse') && "text-primary"
-                )}
-              >
-                Warehouse
-              </Link>
-              <Link 
-                to="/consumer" 
-                className={cn(
-                  "text-sm font-medium transition-colors hover:text-primary",
-                  location.pathname.includes('/consumer') && "text-primary"
-                )}
-              >
-                Consumer
-              </Link>
+              {renderNavLinks()}
             </nav>
           )}
         </div>
@@ -160,12 +183,10 @@ const Header: React.FC = () => {
             <Bell className="h-5 w-5" />
           </Button>
           
-          
-            <Button variant="ghost" className="w-full justify-start text-muted-foreground">
-              <UserRoundPlus className="mr-2 h-5 w-5" />
-                <Link to="/profile">Profile</Link>
-            </Button>
-
+          <Button variant="ghost" className="w-full justify-start text-muted-foreground">
+            <UserRoundPlus className="mr-2 h-5 w-5" />
+            <Link to="/profile">Profile</Link>
+          </Button>
         </div>
       </div>
     </header>

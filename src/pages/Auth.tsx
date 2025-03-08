@@ -141,8 +141,8 @@ const Auth = () => {
                   
                   <div className="space-y-2">
                     <Label>Select your role</Label>
-                    <div className="grid grid-cols-5 gap-2">
-                      {(['farmer', 'transporter', 'warehouse', 'retailer', 'consumer'] as UserRole[]).map((r) => (
+                    <div className="grid grid-cols-4 gap-2">
+                      {(['farmer', 'transporter', 'warehouse',  'consumer'] as UserRole[]).map((r) => (
                         <Button
                           key={r}
                           type="button"
@@ -208,8 +208,8 @@ const Auth = () => {
                   
                   <div className="space-y-2">
                     <Label>Select your role</Label>
-                    <div className="grid grid-cols-5 gap-2">
-                      {(['farmer', 'transporter', 'warehouse', 'retailer', 'consumer'] as UserRole[]).map((r) => (
+                    <div className="grid grid-cols-4 gap-2">
+                      {(['farmer', 'transporter', 'warehouse', 'consumer'] as UserRole[]).map((r) => (
                         <Button
                           key={r}
                           type="button"

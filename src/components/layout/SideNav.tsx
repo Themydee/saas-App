@@ -163,13 +163,6 @@ const SideNav: React.FC<SideNavProps> = ({ className }) => {
               Help & Support
             </Button>
           </Link>
-          
-          <Link to="/auth">
-            <Button variant="ghost" className="w-full justify-start text-muted-foreground">
-              <LogOut className="mr-2 h-5 w-5" />
-              Sign Out
-            </Button>
-          </Link>
         </div>
       </div>
     </div>

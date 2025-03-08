@@ -121,11 +121,20 @@ const Profile = () => {
           navigate('/admin');
           break;
         default:
-          navigate('');
+          navigate('/home');
       }
     } else {
       navigate('');
     }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    navigate('/auth');
+    toast({
+      title: "Logged out",
+      description: "You have been successfully logged out.",
+    });
   };
 
   if (!user) {
@@ -158,10 +167,7 @@ const Profile = () => {
                 )}
               </div>
               <CardTitle className="text-2xl mb-1">{user.name}</CardTitle>
-              <div className={`px-3 py-1 rounded-full text-xs font-medium mt-1 inline-flex items-center gap-1 ${getRoleColor(user.role)}`}>
-                {getRoleIcon(user.role)}
-                <span className="capitalize">{user.role}</span>
-              </div>
+              
               <CardDescription className="mt-2 text-md">{user.email}</CardDescription>
             </CardHeader>
             
@@ -264,8 +270,8 @@ const Profile = () => {
                   <Button onClick={() => setIsEditing(true)}>
                     Edit Profile
                   </Button>
-                  <Button style={{backgroundColor: "red"}}>
-                    <Link to="/auth">Logout</Link>
+                  <Button variant="outline" onClick={handleLogout}>
+                    Logout
                   </Button>
                 </>
               )}

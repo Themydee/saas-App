@@ -10,6 +10,9 @@ import Auth from "./pages/Auth";
 import Farmer from "./pages/Farmer";
 import Transporter from "./pages/Transporter";
 import Profile from "./pages/Profile";
+import Warehouse from "./pages/Warehouse";
+import Consumer from "./pages/Consumer";
+import Home from "./pages/Home"
 
 const queryClient = new QueryClient();
 
@@ -25,6 +28,9 @@ const App = () => (
           <Route path="/profile" element={<Profile />} />
           <Route path="/farmer" element={<Farmer />} />
           <Route path="/transporter" element={<Transporter /> } />
+          <Route path="/warehouse" element={<Warehouse />} />
+          <Route path="/consumer" element={<Consumer />} />
+          <Route path="/home" element={<Home />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
