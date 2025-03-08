@@ -14,12 +14,7 @@ export default function Index() {
           <Button asChild size="lg">
             <Link to="/auth">Get Started</Link>
           </Button>
-          <Button asChild size="lg" variant="outline">
-            <Link to="/home">
-              <LayoutDashboard className="mr-2 h-5 w-5" />
-              Dashboard
-            </Link>
-          </Button>
+          
         </div>
       </div>
     </div>
